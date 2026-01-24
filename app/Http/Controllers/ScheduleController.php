@@ -15,4 +15,15 @@ class ScheduleController extends Controller
         
         return view('admin.schedule', compact('teachers'));
     }
+    public function store(Request $request) {
+    $validated = $request->validate([
+        'subject_name' => 'required|string',
+        'teacher_id' => 'required|exists:users,id',
+        'start' => 'required|date',
+        'end' => 'required|date',
+    ]);
+
+    \App\Models\Lesson::create($validated);
+    return response()->json(['message' => 'Lekcja dodana']);
+}
 }
