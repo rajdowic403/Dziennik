@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
+import { createPortal } from 'react-dom';
 
 const CalendarApp = () => {
  
@@ -69,6 +70,80 @@ const CalendarApp = () => {
         setIsModalOpen(true);
     };
 
+   const LessonModal = ({ onClose }) => {
+    return createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+            
+            <div
+                className="absolute inset-0 bg-black/50"
+                onClick={onClose}
+            />
+            <div className="relative w-full max-w-md mx-4 bg-white rounded-xl shadow-2xl">
+                
+                <div className="flex items-start justify-between p-5 border-b bg-gray-50">
+                    <h3 className="text-xl font-semibold">
+                        Zaplanuj zajęcia akademickie
+                    </h3>
+                    <button onClick={onClose} className="text-3xl leading-none">
+                        ×
+                    </button>
+                </div>
+
+                <div className="p-6 space-y-4">
+                    <div className="bg-blue-50 p-4 rounded text-sm border">
+                        <p><strong>Początek:</strong> {new Date(formData.start).toLocaleString('pl-PL')}</p>
+                        <p><strong>Koniec:</strong> {new Date(formData.end).toLocaleString('pl-PL')}</p>
+                    </div>
+
+                    <select
+                        className="w-full p-2 border rounded"
+                        onChange={e => setFormData({ ...formData, subject_id: e.target.value })}
+                    >
+                        <option value="">Wybierz przedmiot</option>
+                        {subjects.map(s => (
+                            <option key={s.id} value={s.id}>{s.name}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        className="w-full p-2 border rounded"
+                        onChange={e => setFormData({ ...formData, teacher_id: e.target.value })}
+                    >
+                        <option value="">Wybierz prowadzącego</option>
+                        {teachers.map(t => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        className="w-full p-2 border rounded"
+                        onChange={e => setFormData({ ...formData, class_group_id: e.target.value })}
+                    >
+                        <option value="">Wybierz grupę</option>
+                        {groups.map(g => (
+                            <option key={g.id} value={g.id}>{g.name}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="flex justify-end gap-3 p-5 border-t">
+                    <button onClick={onClose} className="text-gray-500">
+                        Anuluj
+                    </button>
+                    <button
+                        onClick={saveLesson}
+                        className="bg-blue-600 text-white px-5 py-2 rounded"
+                    >
+                        Zatwierdź
+                    </button>
+                </div>
+            </div>
+        </div>,
+        document.body
+    );
+};
+
+
     const saveLesson = async () => {
         try {
             const response = await axios.post('/api/lessons', formData);
@@ -82,11 +157,12 @@ const CalendarApp = () => {
     };
 
     return (
+    <>
         <div className="calendar-container bg-white p-4 shadow-lg rounded-lg">
             <FullCalendar
                 plugins={[timeGridPlugin, interactionPlugin]}
                 initialView="timeGridWeek"
-                selectable={true}
+                selectable
                 select={handleSelect}
                 slotMinTime="08:00:00"
                 slotMaxTime="21:00:00"
@@ -99,76 +175,13 @@ const CalendarApp = () => {
                     right: 'timeGridWeek,timeGridDay'
                 }}
             />
-
-            
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-5 flex items-center justify-center z-[1000]">
-                    <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md border-t-4 border-blue-600">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Zaplanuj zajęcia</h2>
-                        
-                        <div className="space-y-4">
-                            
-                            <div className="bg-blue-50 p-3 rounded text-sm text-blue-800">
-                                <strong>Termin:</strong> {new Date(formData.start).toLocaleString('pl-PL')} <br/>
-                                <strong>Koniec:</strong> {new Date(formData.end).toLocaleString('pl-PL')}
-                            </div>
-
-                            
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Przedmiot / Moduł</label>
-                                <select 
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                    onChange={e => setFormData({...formData, subject_id: e.target.value})}
-                                >
-                                    <option value="">Wybierz przedmiot...</option>
-                                    {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                                </select>
-                            </div>
-
-                            
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Prowadzący</label>
-                                <select 
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                    onChange={e => setFormData({...formData, teacher_id: e.target.value})}
-                                >
-                                    <option value="">Wybierz prowadzącego...</option>
-                                    {teachers.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                                </select>
-                            </div>
-
-                            {/* Wybór Grupy */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Grupa Studencka</label>
-                                <select 
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                    onChange={e => setFormData({...formData, class_group_id: e.target.value})}
-                                >
-                                    <option value="">Wybierz grupę...</option>
-                                    {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="mt-6 flex justify-end space-x-3">
-                            <button 
-                                onClick={() => setIsModalOpen(false)}
-                                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
-                            >
-                                Anuluj
-                            </button>
-                            <button 
-                                onClick={saveLesson}
-                                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md transition"
-                            >
-                                Zatwierdź plan
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
-    );
+
+        {isModalOpen && (
+            <LessonModal onClose={() => setIsModalOpen(false)} />
+        )}
+    </>
+);
 };
 
 export default CalendarApp;
