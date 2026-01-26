@@ -11,11 +11,25 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+    @role('moderator')
+        <x-nav-link :href="route('moderator.dashboard')" :active="request()->routeIs('moderator.dashboard')">
+            {{ __('Panel Moderatora') }}
+        </x-nav-link>
+    @endrole
+
+    @role('student')
+        <x-nav-link :href="route('student.dashboard')" :active="request()->routeIs('student.dashboard')">
+            {{ __('Mój Plan Zajęć') }}
+        </x-nav-link>
+    @endrole
+    
+    @role('teacher')
+        <x-nav-link :href="route('teacher.dashboard')" :active="request()->routeIs('teacher.dashboard')">
+            {{ __('Panel Wykładowcy') }}
+        </x-nav-link>
+    @endrole
+</div>
             </div>
 
             <!-- Settings Dropdown -->

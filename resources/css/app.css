@@ -5,3 +5,6 @@
 html, body {
   transform: none !important;
 }
+.fixed-modal-container {
+  z-index: 10000 !important;
+}

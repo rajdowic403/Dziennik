@@ -25,7 +25,6 @@ const CalendarApp = () => {
     const fetchEvents = async () => {
     try {
         const response = await axios.get('/api/lessons');
-        // Mapujemy dane z bazy na format, który rozumie FullCalendar
         const formattedEvents = response.data.map(lesson => ({
             id: lesson.id,
             title: `${lesson.subject.name} - ${lesson.teacher.name}`,
@@ -72,13 +71,13 @@ const CalendarApp = () => {
 
    const LessonModal = ({ onClose }) => {
     return createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center ">
             
             <div
-                className="absolute inset-0 bg-black/50"
+                className="absolute inset-0 z-[1000]  bg-black/40"
                 onClick={onClose}
             />
-            <div className="relative w-full max-w-md mx-4 bg-white rounded-xl shadow-2xl">
+            <div className="relative w-[420px] max-w-[90vw] bg-white rounded-xl shadow-2xl z-[10000]">
                 
                 <div className="flex items-start justify-between p-5 border-b bg-gray-50">
                     <h3 className="text-xl font-semibold">

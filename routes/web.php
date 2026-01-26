@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/api/events', [EventController::class, 'index']);
     Route::post('/api/events', [EventController::class, 'store']);
+    Route::get('/moderator/dashboard', [DashboardController::class, 'moderatorIndex'])->name('moderator.dashboard');
+    Route::get('/student/dashboard', [DashboardController::class, 'studentIndex'])->name('student.dashboard');
 });
 
 Route::middleware(['auth', 'role:moderator'])->group(function () {

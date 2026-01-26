@@ -3,8 +3,13 @@ import './alpine'   // 👈 WAŻNE
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import CalendarApp from './components/CalendarApp'
+import StudentCalendar from './components/StudentCalendar';
 
-const container = document.getElementById('calendar-root')
-if (container) {
-    createRoot(container).render(<CalendarApp />)
+const modRoot = document.getElementById('moderator-root');
+if (modRoot) {
+    ReactDOM.createRoot(modRoot).render(<CalendarApp />);
+}
+const studentRoot = document.getElementById('student-root');
+if (studentRoot) {
+    ReactDOM.createRoot(studentRoot).render(<StudentCalendar />);
 }

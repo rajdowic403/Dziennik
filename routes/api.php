@@ -7,6 +7,7 @@ use App\Models\Subject;
 use App\Models\ClassGroup;
 
 
+
 Route::get('/teachers', fn() => User::role('teacher')->get(['id', 'name']));
 Route::get('/subjects', fn() => Subject::all(['id', 'name']));
 Route::get('/groups', fn() => ClassGroup::all(['id', 'name']));
