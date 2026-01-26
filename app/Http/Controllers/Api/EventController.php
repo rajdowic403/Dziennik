@@ -20,7 +20,7 @@ class EventController extends Controller
             'start' => 'required',
             'end' => 'required',
         ]);
-
+        $userId = Auth::id() ?? 1;
         $event = Event::create([
             'title' => $data['title'],
             'start' => $data['start'],

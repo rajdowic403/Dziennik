@@ -9,7 +9,6 @@ const CalendarApp = () => {
     const [teachers, setTeachers] = useState([]);
     const [subjects, setSubjects] = useState([]);
     const [groups, setGroups] = useState([]);
-    const [events, setEvents] = useState([]);
     
    
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,24 +20,6 @@ const CalendarApp = () => {
         end: ''
     });
 
-    const fetchEvents = async () => {
-    try {
-        const response = await axios.get('/api/lessons');
-        // Mapujemy dane z bazy na format, który rozumie FullCalendar
-        const formattedEvents = response.data.map(lesson => ({
-            id: lesson.id,
-            title: `${lesson.subject.name} - ${lesson.teacher.name}`,
-            start: lesson.start,
-            end: lesson.end,
-            extendedProps: {
-                group: lesson.class_group.name
-            }
-        }));
-        setEvents(formattedEvents);
-    } catch (err) {
-        console.error("Błąd ładowania lekcji:", err);
-    }
-};
     
     useEffect(() => {
         const fetchData = async () => {
@@ -51,7 +32,6 @@ const CalendarApp = () => {
                 setTeachers(tRes.data);
                 setSubjects(sRes.data);
                 setGroups(gRes.data);
-                await fetchEvents();
             } catch (err) {
                 console.error("Błąd pobierania słowników:", err);
             }
@@ -69,6 +49,7 @@ const CalendarApp = () => {
         setIsModalOpen(true);
     };
 
+    // Zapisywanie lekcji
     const saveLesson = async () => {
         try {
             const response = await axios.post('/api/lessons', formData);
@@ -92,7 +73,6 @@ const CalendarApp = () => {
                 slotMaxTime="21:00:00"
                 allDaySlot={false}
                 locale="pl"
-                events={events}
                 headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',
@@ -102,7 +82,7 @@ const CalendarApp = () => {
 
             
             {isModalOpen && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-5 flex items-center justify-center z-[1000]">
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-[1000]">
                     <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md border-t-4 border-blue-600">
                         <h2 className="text-2xl font-bold text-gray-800 mb-4">Zaplanuj zajęcia</h2>
                         
