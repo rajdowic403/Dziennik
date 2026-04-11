@@ -14,11 +14,9 @@ const StudentCalendar = () => {
             const response = await axios.get('/api/lessons');
             const formatted = response.data.map(lesson => ({
                 id: lesson.id,
-                // Na głównym widoku tylko nazwa przedmiotu i grupa
                 title: `${lesson.subject?.name} [${lesson.class_group?.name}]`,
                 start: lesson.start,
                 end: lesson.end,
-                // Przekazujemy resztę danych do "extendedProps", żeby wyciągnąć je w modalu
                 extendedProps: {
                     lecturer: lesson.teacher?.name,
                     subjectCode: lesson.subject?.code,
@@ -35,7 +33,6 @@ const StudentCalendar = () => {
         fetchLessons();
     }, []);
 
-    // Obsługa kliknięcia w istniejące zajęcia
     const handleEventClick = (info) => {
         setSelectedLesson({
             title: info.event.title,
@@ -57,6 +54,12 @@ const StudentCalendar = () => {
                 slotMaxTime="20:00:00"
                 allDaySlot={false}
                 locale="pl"
+                eventTimeFormat={{
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false,
+                hour12: false
+                }}
                 headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',

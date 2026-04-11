@@ -10,9 +10,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/events', [EventController::class, 'store']);
     Route::get('/moderator/dashboard', [DashboardController::class, 'moderatorIndex'])->name('moderator.dashboard');
     Route::get('/student/dashboard', [DashboardController::class, 'studentIndex'])->name('student.dashboard');
+    Route::get('/teacher/dashboard', [DashboardController::class, 'teacherIndex'])->name('teacher.dashboard');
 });
 
 Route::middleware(['auth', 'role:moderator'])->group(function () {
