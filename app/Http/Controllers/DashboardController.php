@@ -13,16 +13,16 @@ class DashboardController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if ($user->hasRole('moderator')) {
-            return redirect()->route('moderator.dashboard');
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
         }
 
         return redirect()->route('student.dashboard');
     }
 
-    public function moderatorIndex()
+    public function adminIndex()
     {
-        return view('dashboard.moderator');
+        return view('dashboard.admin');
     }
 
     public function studentIndex()

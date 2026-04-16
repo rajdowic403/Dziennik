@@ -46,4 +46,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function frekwencje() {
+        return $this->hasMany(Frekwencja::class, 'student_id');
+    }
+
 }

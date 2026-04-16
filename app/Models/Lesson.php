@@ -18,4 +18,6 @@ class Lesson extends Model
     public function subject() { return $this->belongsTo(Subject::class); }
     public function teacher() { return $this->belongsTo(User::class, 'teacher_id'); }
     public function classGroup() { return $this->belongsTo(ClassGroup::class); }
-}
+
+    public function frekwencje() { return $this->hasMany(Frekwencja::class); }
+    }

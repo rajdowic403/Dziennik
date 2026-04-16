@@ -11,15 +11,18 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        $moderator = Role::firstOrCreate(['name' => 'moderator']);
+        $admin = Role::firstOrCreate(['name' => 'admin']);
         $teacher = Role::firstOrCreate(['name' => 'teacher']);
         $student = Role::firstOrCreate(['name' => 'student']);
 
-        $user = User::where('email', 'admin@example.com')->first();
-        
-        if ($user) {
-            $user->assignRole('moderator');
-        }
+        $adminUser = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Administrator',
+                'password' => Hash::make('password')
+            ]
+        );
+        $adminUser->assignRole('admin');
 
         $teachers = ['John Smith',  'Emily Johnson',  'Michael Brown',  'Sarah Williams',  'David Miller',  'Jessica Taylor',  'Daniel Anderson',  'Laura Thompson',  'James Wilson',  'Olivia Moore'
     ];
