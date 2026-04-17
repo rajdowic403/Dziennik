@@ -12,9 +12,9 @@
 
                 <!-- Navigation Links -->
                 <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    @role('moderator')
-        <x-nav-link :href="route('moderator.dashboard')" :active="request()->routeIs('moderator.dashboard')">
-            {{ __('Panel Moderatora') }}
+    @role('admin')
+        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('moderator.dashboard')">
+            {{ __('Panel Administratora') }}
         </x-nav-link>
     @endrole
 

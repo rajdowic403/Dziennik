@@ -7,6 +7,7 @@ use App\Models\ClassGroup;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AcademicSeeder extends Seeder
 {
@@ -32,7 +33,7 @@ class AcademicSeeder extends Seeder
         ];
 
         foreach ($groups as $g) {
-            ClassGroup::create($g);
+            $createdGroups[] = ClassGroup::create($g);
         }
 
         
@@ -49,6 +50,28 @@ class AcademicSeeder extends Seeder
             ]);
           
             $user->assignRole('teacher'); 
+        }
+
+        Role::firstOrCreate(['name' => 'student']);
+
+        $students = [
+            'Kamil Majewski', 'Anna Wiśniewska', 'Piotr Zieliński', 'Zofia Kaczmarek',
+            'Jan Kowalczyk', 'Katarzyna Szymańska', 'Michał Woźniak', 'Karolina Dąbrowska',
+            'Jakub Kozłowski', 'Oliwia Jankowska', 'Maciej Mazur', 'Julia Krawczyk'
+        ];
+
+        foreach ($students as $index => $name) {
+            // Rozdzielamy studentów równomiernie do grup zapisanych wcześniej
+            $group = $createdGroups[$index % count($createdGroups)];
+
+            $studentUser = User::create([
+                'name' => $name,
+                'email' => strtolower(str_replace(' ', '.', $name)) . '@student.uczelnia.edu.pl',
+                'password' => Hash::make('password'),
+                'class_group_id' => $group->id 
+            ]);
+
+            $studentUser->assignRole('student');
         }
     }
 }

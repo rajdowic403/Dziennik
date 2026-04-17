@@ -10,9 +10,9 @@ class FrekwencjaController extends Controller
 {
 public function create(Lesson $lesson)
 {
-    $students = $lesson->classGroup()->students();
+    $students = $lesson->classGroup->students;
 
-    $frekwencje = $lesson->frekwencje()->keyBy('student_id');
+    $frekwencje = $lesson->frekwencje->keyBy('student_id');
 
     return view('frekwencje.create', compact('lesson','students', 'frekwencje'));
 

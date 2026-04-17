@@ -16,7 +16,7 @@
             @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form action="{{ route('attendance.store', $lesson) }}" method="POST">
+                <form action="{{ route('frekwencja.store', $lesson) }}" method="POST">
                     @csrf
                     
                     <div class="overflow-x-auto">
@@ -31,22 +31,22 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($students as $student)
                                     @php
-                                        $currentStatus = $attendances[$student->id]->status ?? 'present';
-                                        $currentRemarks = $attendances[$student->id]->remarks ?? '';
+                                        $currentStatus = $frekwencje[$student->id]->status ?? 'present';
+                                        $currentRemarks = $frekwencje[$student->id]->remarks ?? '';
                                     @endphp
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $student->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <select name="attendance[{{ $student->id }}][status]" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                                <option value="present" {{ $currentStatus == 'present' ? 'selected' : '' }}>Obecny(a)</option>
-                                                <option value="absent" {{ $currentStatus == 'absent' ? 'selected' : '' }}>Nieobecny(a)</option>
-                                                <option value="late" {{ $currentStatus == 'late' ? 'selected' : '' }}>Spóźniony(a)</option>
-                                                <option value="excused" {{ $currentStatus == 'excused' ? 'selected' : '' }}>Usprawiedliwiony(a)</option>
-                                            </select>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <x-text-input type="text" name="attendance[{{ $student->id }}][remarks]" value="{{ $currentRemarks }}" class="block w-full" placeholder="Np. spóźnienie na pociąg" />
-                                        </td>
+    <select name="frekwencja[{{ $student->id }}][status]" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+        <option value="obecny" {{ $currentStatus == 'obecny' ? 'selected' : '' }}>Obecny(a)</option>
+        <option value="nieobecny" {{ $currentStatus == 'nieobecny' ? 'selected' : '' }}>Nieobecny(a)</option>
+        <option value="spóźniony" {{ $currentStatus == 'spóźniony' ? 'selected' : '' }}>Spóźniony(a)</option>
+        <option value="usprawiedliwienie" {{ $currentStatus == 'usprawiedliwienie' ? 'selected' : '' }}>Usprawiedliwiony(a)</option>
+    </select>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+    <x-text-input type="text" name="frekwencja[{{ $student->id }}][uwagi]" value="{{ $currentRemarks }}" class="block w-full" placeholder="Np. spóźnienie na pociąg" />
+</td>
                                     </tr>
                                 @endforeach
                             </tbody>

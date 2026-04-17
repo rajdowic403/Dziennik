@@ -17,6 +17,10 @@ class DashboardController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
+        if ($user->hasRole('teacher')) {
+            return redirect()->route('teacher.dashboard');
+        }
+
         return redirect()->route('student.dashboard');
     }
 
@@ -28,5 +32,10 @@ class DashboardController extends Controller
     public function studentIndex()
     {
         return view('dashboard.student');
+    }
+
+    public function teacherIndex()
+    {
+        return view('dashboard.teacher');
     }
 }
