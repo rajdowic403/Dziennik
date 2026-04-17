@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
-    // DODAJ TO KONIECZNIE:
     protected $fillable = [
         'subject_id', 
         'teacher_id', 
