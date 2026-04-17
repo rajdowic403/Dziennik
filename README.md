@@ -39,7 +39,7 @@ Programy potrzebne do uruchomienia projektu:
 1. Pobierz repozytorium
 
 ```bash
-git clone <link-do-twojego-repozytorium>
+git clone https://github.com/rajdowic403/Dziennik
 cd dziennik
 ```
 2. Skonfiguruj plik środowiskowy
