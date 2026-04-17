@@ -65,6 +65,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'eDziennik-KonradMazur95141'
-          slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8D064C95CA904A5985B652F7CED501ED }}
