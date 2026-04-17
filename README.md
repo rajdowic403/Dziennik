@@ -73,3 +73,19 @@ docker compose exec laravel.test npm install
 docker compose exec laravel.test npm run dev
 ```
 
+## 📄Dane logowania do kont testowych
+Hasło do wszystkich kont to: password
+
+Administrator:
+
+Login: admin@example.com
+
+Nauczyciel:
+
+Login: j.kowalski@uczelnia.edu.pl
+
+Login: a.nowak@uczelnia.edu.pl
+
+Uczeń:
+
+Login: kamil.majewski@student.uczelnia.edu.pl

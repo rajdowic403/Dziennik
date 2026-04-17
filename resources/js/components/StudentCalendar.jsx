@@ -3,6 +3,9 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
+
 const StudentCalendar = () => {
     const [events, setEvents] = useState([]);
     const [selectedLesson, setSelectedLesson] = useState(null);

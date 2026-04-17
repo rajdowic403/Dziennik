@@ -9,10 +9,30 @@ use Illuminate\Support\Facades\Log;
 
 class LessonController extends Controller
 {
-    public function index()
+    public function index(Request $request)
 {
  
-    return Lesson::with(['subject', 'teacher', 'classGroup'])->get();
+   $user = $request->user();
+        $query = Lesson::with(['subject', 'teacher', 'classGroup']);
+
+        if ($user) {
+            if ($user->hasRole('student')) {
+                $query->where('class_group_id', $user->class_group_id);
+            } elseif ($user->hasRole('teacher')) {
+                $query->where('teacher_id', $user->id);
+            } elseif ($user->hasRole('admin')) {
+                if ($request->has('group_id') && $request->group_id !== '') {
+                    $query->where('class_group_id', $request->group_id);
+                }
+            }
+        } 
+        else {
+            if ($request->has('group_id') && $request->group_id !== '') {
+                $query->where('class_group_id', $request->group_id);
+            }
+        }
+
+        return response()->json($query->get());
 }
 
     public function store(Request $request)
