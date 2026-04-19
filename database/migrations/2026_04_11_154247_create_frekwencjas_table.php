@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lesson_id')->constrained()->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('status', ['obecny', 'nieobecny', 'spóźniony', 'usprawieliwienie']);
+            $table->enum('status', ['obecny', 'nieobecny', 'spóźniony', 'usprawiedliwienie']);
             $table->text('uwagi')->nullable();
             $table->timestamps();
             $table->unique(['lesson_id', 'student_id']);

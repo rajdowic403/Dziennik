@@ -150,6 +150,7 @@ const CalendarApp = () => {
                 slotMaxTime="21:00:00"
                 allDaySlot={false}
                 locale="pl"
+                timeZone="local"
                 headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',

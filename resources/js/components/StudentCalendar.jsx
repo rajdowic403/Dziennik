@@ -57,6 +57,7 @@ const StudentCalendar = () => {
                 slotMaxTime="20:00:00"
                 allDaySlot={false}
                 locale="pl"
+                timeZone="local"
                 eventTimeFormat={{
                 hour: '2-digit',
                 minute: '2-digit',
