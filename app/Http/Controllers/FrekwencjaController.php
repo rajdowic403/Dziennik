@@ -22,19 +22,19 @@ public function create(Lesson $lesson)
 public function store(Request $request, Lesson $lesson)
 {
     $validated = $request->validate([
-        'frekwencje' => 'required|array',
-        'frekwencje.*.status' => 'required|in:obecny,nieobecny,spóźniony,usprawieliwienie',
-        'frekwencje.*.remarks' => 'nullable|string',
+        'frekwencja' => 'required|array',
+        'frekwencja.*.status' => 'required|in:obecny,nieobecny,spóźniony,usprawiedliwienie',
+        'frekwencja.*.uwagi' => 'nullable|string',
     ]);
-    foreach ($validated['frekwencje'] as $studentId => $data) {
+    foreach ($validated['frekwencja'] as $studentId => $data) {
         Frekwencja::updateOrCreate(
             [
-                'lesson_id' => $lesson->id(),
+                'lesson_id' => $lesson->id,
                 'student_id' => $studentId,
             ],
             [
                 'status' => $data['status'],
-                'uwagi' => $data['remarks'] ?? null,
+                'uwagi' => $data['uwagi'] ?? null,
             ]
         );
     }

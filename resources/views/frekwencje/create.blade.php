@@ -25,14 +25,23 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uczeń</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uwagi (opcjonalnie)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uwagi (opcjonalne)</th>
                                 </tr>
                             </thead>
+                            @if ($errors->any())
+                            <div class="mb-4 text-sm text-red-600 bg-red-100 p-3 rounded">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                                </ul>
+                                </div>
+                            @endif
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($students as $student)
                                     @php
-                                        $currentStatus = $frekwencje[$student->id]->status ?? 'present';
-                                        $currentRemarks = $frekwencje[$student->id]->remarks ?? '';
+                                        $currentStatus = $frekwencje[$student->id]->status ?? 'obecny';
+                                        $currentRemarks = $frekwencje[$student->id]->uwagi ?? '';
                                     @endphp
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $student->name }}</td>
